@@ -334,12 +334,13 @@ def _build_gdtf_xml(personality: dict) -> ET.Element:
         # ChannelFunction
         phys_from, phys_to = ATTR_PHYSICAL_RANGE.get(ch["gdtf_attr"], ("0", "1"))
         resolution = "2" if ch["is_16bit"] else "1"
+        dmx_max = 65535 if ch["is_16bit"] else 255
         ET.SubElement(logical, "ChannelFunction",
                       Attribute=ch["gdtf_attr"],
                       Name=ch["name"],
                       OriginalAttribute="",
                       DMXFrom=f"0/{resolution}",
-                      DMXTo=f"255/{resolution}" if not ch["is_16bit"] else f"65535/{resolution}",
+                      DMXTo=f"{dmx_max}/{resolution}",
                       PhysicalFrom=phys_from,
                       PhysicalTo=phys_to,
                       RealFade="0",
